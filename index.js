@@ -30,10 +30,13 @@ console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin
   Aşağıdaki skor1 ve skor2 kodlarını inceleyiniz ve aşağıdaki soruları altına not alarak cevaplayın
   
   1. skor1 ve skor2 arasındaki fark nedir?
-  
+  skor1 fonksiyon içerisinde tanımlanıp başka bir fonksiyonla arttırılıyor, skor2 ise tamamen dışarıda oluşturulup başka bir fonksiyonla arttırılıyor.
+
   2. Hangisi bir closure kullanmaktadır? Nasıl tarif edebilirsin? (yarınki derste öğreneceksin :) )
+  Dış taraftan değişken almaya çalıştığı için skor2.
   
   3. Hangi durumda skor1 tercih edilebilir? Hangi durumda skor2 daha mantıklıdır?
+  skor2 skor kavramını bir daha kullanıcaksam başka fonksiyonda daha mantıklı, skor1 ise tek kullanımlık gibi
 */
 
 // skor1 kodları
@@ -64,8 +67,8 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+function takimSkoru(){
+    return Math.floor((Math.random()*15)+10)
 }
 
 
@@ -86,9 +89,22 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(takimSkoru,setvalue){
+  let EvSahibi = 0
+  let KonukTakim = 0
+  for (let i=0;i<setvalue;i++){
+    EvSahibi += takimSkoru();
+    KonukTakim += takimSkoru();
+    console.log(`${i+1}. çeyrek sonucu : Ev Sahibi = ${EvSahibi}, KonukTakim = ${KonukTakim}`)
+  }
+  let macSonuc= {
+    "EvSahibi": EvSahibi,
+    "KonukTakim": KonukTakim
+  }
+  return macSonuc;
 }
+
+console.log(macSonucu(takimSkoru,4))
 
 
 
@@ -109,10 +125,16 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function periyotSkoru(takimSkoru) {
+  let perSkor = {}
+  return perSkor = {
+    "EvSahibi": takimSkoru(),
+    "KonukTakim": takimSkoru()
+  }
 
 }
+
+console.log(periyotSkoru(takimSkoru))
 
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
@@ -146,11 +168,34 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(periyotSkoru,takimSkoru,sets) {
+  let genelSkorEv=0
+  let genelSkorKonuk=0
+  for (let i=0;i<sets;i++){
+    let skorEv = 0
+    let skorKonuk = 0
+    skorEv+= takimSkoru()
+    skorKonuk+= takimSkoru()
+    genelSkorEv+= skorEv
+    genelSkorKonuk+= skorKonuk
+    console.log(`${i+1}. Periyot: Ev Sahibi ${skorEv} - Konuk Takım ${skorKonuk}`)
+  }
+  if (genelSkorEv==genelSkorKonuk){
+    skorEv= 0
+    skorKonuk = 0
+    skorEv+= takimSkoru()
+    skorKonuk+= takimSkoru()
+    genelSkorEv+= skorEv
+    genelSkorKonuk+= skorKonuk
+    console.log(`1. Uzatma: Ev Sahibi ${skorEv} - Konuk Takım ${skorKonuk} `)
+    return (`Maç Sonucu: Ev Sahibi ${genelSkorEv} - Konuk Takım ${genelSkorKonuk} `)
+  }
+  else {
+    return (`Maç Sonucu: Ev Sahibi ${genelSkorEv} - Konuk Takım ${genelSkorKonuk} `)
+  }
 }
 
-
+console.log(skorTabelasi(periyotSkoru,takimSkoru,4))
 
 
 /* Aşağıdaki satırları lütfen değiştirmeyiniz*/
